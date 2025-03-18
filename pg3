@@ -33,3 +33,8 @@ counter++; floyd1(a,n);
 }
 finish=clock();
 sec=((finish – start)/18.26)/counter; printf(“Time taken: %f”,sec); printf(“\nThe resultant path matrix is\n”);
+for(i=1;i<=n;i++)
+{
+for(j=1;j<=n;j++) printf(“%d\t”,a[i][j]); printf(“\n”);
+}
+}
