@@ -1,45 +1,73 @@
-
-#include <stdio.h>
-#include<time.h>	// for time()
-#include<stdlib.h>	// for rand()
-
-int main()
+#include<time.h>
+#include<stdio.h>
+#include<iostream.h>
+#include<conio.h>
+#define MAX 100
+void mergesort(int[100],int,int);
+void merge(int[100],int,int,int);
+int a[max];
+void main( )
 {
-static int MAX=50000; 
-clock_t start,end; int a[MAX],n,i=0;
-printf("\n Enter the number of elements \n"); scanf("%d", &n);
-printf("\n Enter the array :\n");
+ int i,n;
+clock_t s,e;
+printf(“Enter the no. of elements\n”);
+scanf(“%d”,&n);
+printf(“Elements of the array before sorting\n”);
 for(i=0;i<n;i++)
-a[i]=rand()%1000; // storing a random number between 0 and 1000
-printf("\n The array is :\n"); for(i=0;i<n;i++) printf("%d\n", a[i]); start=clock(); selectionSort(a, n); end=clock();
-printf("\n The sorted array is :\n"); for(i=0;i<n;i++)
-printf("%d\n", a[i]);
-printf("\n Time taken is :%f", (end-start)/(double)CLOCKS_PER_SEC);
-return 0;
+{
+a[i]=rand ( );
+printf(“%d\t”,a[i]);
 }
-
-
-selectionSort(int a[], int n)
-{
-for (int i = 0; i < n-1; i++)
-{
-// min is the index of the smallest element with an index greater or equal to i 
-int swap, min = i;
-for (int j = i + 1; j < n; j++)
-{
-if (a[j] < a[min])
-{
-min = j;
+s=clock();
+mergesort(a,0, n-1);
+e=clock();
+printf(“\nElements of the array after sorting\n”);
+for(i=0;i<n;i++)
+printf(“%d\t”.a[i]);
+printf(“the time taken=%f\n”,(e-s)/CLOCKS_PER_SEC);
+getch();
 }
-		}
-
-
-if ( min != i )
+void mergesort(int a[100],int low,int high)
 {
-swap =a[i]; 
-a[i] = a[min]; 
-a[min]= swap;
+int mid;
+        if(high>low)
+{
+mid=(low+high)/2;
+mergesort(a,low,mid);
+mergesort(a,mid+1,high);
+ merge(a,low,mid,high);
 }
-
 }
+void merge(int a[100],int low,int mid,int high)
+{
+int k=low,j=mid+1,i=low,c[max];
+  while((i<=mid)&&(j<=high))
+{
+if(a[i]<=a[j])
+{
+c[k]=a[i];
+i=i+1;
+}
+               else
+{
+c[k]=a[j];
+ j=j+1;
+}
+             k=k+1;
+}
+if(k>mid)
+while(i<=mid)
+{
+c[k]=a[i];
+k=k+1;
+i=i+1;
+}
+while(j<=high)
+{
+c[k]=a[j];
+k=k+1;
+j=j+1;
+}
+for(i=low,i<=high;i++)
+a[i]=c[i];
 }
