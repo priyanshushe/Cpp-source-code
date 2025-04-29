@@ -1,73 +1,89 @@
-#include<time.h>
 #include<stdio.h>
-#include<iostream.h>
 #include<conio.h>
-#define MAX 100
-void mergesort(int[100],int,int);
-void merge(int[100],int,int,int);
-int a[max];
-void main( )
+#include<time.h>
+int d[20],s[20],w[20][20],p[20],n,v;
+int findmin()
 {
- int i,n;
-clock_t s,e;
-printf(“Enter the no. of elements\n”);
-scanf(“%d”,&n);
-printf(“Elements of the array before sorting\n”);
-for(i=0;i<n;i++)
+      int i,min;
+      for(i=1;i<=n;i++)
+	 if(s[i]==0)
+	{
+ min=i;
+		break;
+	}
+for(i=1;i<=n;i++)
 {
-a[i]=rand ( );
-printf(“%d\t”,a[i]);
+	   if(d[i]<d[min] && s[i]==0)
+	   min=i;
 }
-s=clock();
-mergesort(a,0, n-1);
-e=clock();
-printf(“\nElements of the array after sorting\n”);
-for(i=0;i<n;i++)
-printf(“%d\t”.a[i]);
-printf(“the time taken=%f\n”,(e-s)/CLOCKS_PER_SEC);
-getch();
+       return min;
 }
-void mergesort(int a[100],int low,int high)
+void dijikstra()
 {
-int mid;
-        if(high>low)
+      int i,w1,u,k,j;
+      for(i=1;i<=n;i++)
 {
-mid=(low+high)/2;
-mergesort(a,low,mid);
-mergesort(a,mid+1,high);
- merge(a,low,mid,high);
-}
-}
-void merge(int a[100],int low,int mid,int high)
-{
-int k=low,j=mid+1,i=low,c[max];
-  while((i<=mid)&&(j<=high))
-{
-if(a[i]<=a[j])
-{
-c[k]=a[i];
-i=i+1;
-}
-               else
-{
-c[k]=a[j];
- j=j+1;
-}
-             k=k+1;
-}
-if(k>mid)
-while(i<=mid)
-{
-c[k]=a[i];
-k=k+1;
-i=i+1;
-}
-while(j<=high)
-{
-c[k]=a[j];
-k=k+1;
-j=j+1;
-}
-for(i=low,i<=high;i++)
-a[i]=c[i];
-}
+	s[i]=0;
+	d[i]=999;
+	p[i]=0;
+ }
+      d[v]=0;
+      for(k=1;k<=n;k++)
+{ 
+u=findmin();
+	 s[u]=1;
+	   for(w1=1;w1<=n;w1++)
+	{
+		 if(w[u][w1]!=999 && s[w1]==0)
+	 {
+		  if(d[w1]>d[u]+w[u][w1])
+		  {
+		       d[w1]=d[u]+w[u][w1];
+		       p[w1]=u;
+		   }
+	}
+	   }
+	}
+	printf("shortest path costs\n");
+	for(i=1;i<=n;i++)
+	{
+		 if(d[i]==999)
+		      printf("sorry!  no path for source %d to %d vertex",v,i);
+		  else
+		      printf("path cost from %d to %d is %d\n",v,i,d[i]);
+	 }
+	 printf("shortest group of paths are\n");
+	 for(i=1;i<=n;i++)
+	 {
+	     if(i!=v && d[i]!=999)
+	     {
+		  printf("%d",i);
+		  j=p[i];
+		  while(p[j]!=0)
+		  {
+		  printf("-->%d",j);
+		  j=p[j];
+		  }
+		  printf("-->%d\n",v);
+	  }
+	 }
+ }
+   void main()
+   {
+     int i,j;
+     clock_t end,st;
+     clrscr();
+     printf("enter the number of vertices\n");
+     scanf("%d",&n);
+     printf("enter the cost of vertices\n");
+      	for(i=1;i<=n;i++)
+     		for(j=1;j<=n;j++)
+     			scanf("%d",&w[i][j]);
+     printf("enter the source vertex\n");
+     scanf("%d",&v);
+     st=clock();
+     dijkstra( );
+    end=clock();
+     printf("time taken is %d\n",(end-st)/CLK_TCK);
+     getch();
+  } 
